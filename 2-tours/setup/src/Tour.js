@@ -12,19 +12,12 @@ const Tour = ({ tour, handleDelete }) => {
           <h4>{name}</h4>
           <h4 className="tour-price">${price}</h4>
         </div>
-        {showLess ?
-          (
-            <p>
-              {info.substring(0, 200) + '...'}
-              <button onClick={() => setShowLess(false)}>read more</button>
-            </p>
-          ) : (
-            <p>
-              {info}
-              <button onClick={() => setShowLess(true)}>show less</button>
-            </p>
-          )
-        }
+        <p>
+          {showLess ? `${info.substring(0, 200)}...` : info}
+          <button onClick={() => setShowLess(!showLess)}>
+            {showLess ? "read more" : "show less"}
+          </button>
+        </p>
         <button className="delete-btn" onClick={handleDelete}>not interested</button>
       </footer>
     </article>
