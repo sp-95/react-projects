@@ -8,13 +8,20 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [tours, setTours] = useState([]);
 
+  const fetchTours = async () => {
+    try {
+      const response = await fetch(url);
+      const tours = await response.json();
+      setTours(tours);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        setTours(data);
-        setLoading(false);
-      });
+    fetchTours();
   }, []);
 
   const handleDelete = (id) => setTours(prev => prev.filter(tour => tour.id !== id));
