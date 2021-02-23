@@ -10,7 +10,7 @@ const Tours = ({ tours, handleDelete }) => {
         <div className="underline"></div>
         {!tours.length && <button className="btn" onClick={() => window.location.reload()}>refresh</button>}
       </div>
-      {tours && <div>{tours.map(tour => <Tour tour={tour} handleDelete={() => handleDelete(tour.id)} key={tour.id} />)}</div>}
+      {tours && <div>{tours.map(tour => <Tour tour={tour} handleDelete={handleDelete} key={tour.id} />)}</div>}
     </section>
   )
 };

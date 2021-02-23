@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const Tour = ({ tour, handleDelete }) => {
-  const { name, info, image, price } = tour;
+  const { id, name, info, image, price } = tour;
   const [showLess, setShowLess] = useState(true);
 
   return (
@@ -18,7 +18,7 @@ const Tour = ({ tour, handleDelete }) => {
             {showLess ? "read more" : "show less"}
           </button>
         </p>
-        <button className="delete-btn" onClick={handleDelete}>not interested</button>
+        <button className="delete-btn" onClick={() => handleDelete(id)}>not interested</button>
       </footer>
     </article>
   );
