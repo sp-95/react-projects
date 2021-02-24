@@ -1,10 +1,14 @@
 import React from 'react';
 
-const Categories = ({ category, handleClick }) => {
+const Categories = ({ categories, handleClick }) => {
   return (
-    <button className="filter-btn" onClick={handleClick}>
-      {category}
-    </button>
+    <div className="btn-container">
+      {categories.map((category, index) =>
+        <button key={index} className="filter-btn" onClick={handleClick}>
+          {category}
+        </button>
+      )}
+    </div>
   );
 };
 

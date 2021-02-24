@@ -16,9 +16,7 @@ function App() {
           <h2>Our Menu</h2>
           <div className="underline"></div>
         </header>
-        <div className="btn-container">
-          {categories.map((category, id) => <Categories key={id} category={category} handleClick={handleClick} />)}
-        </div>
+        <Categories categories={categories} handleClick={handleClick} />
         <section className="section-center">
           {items
             .filter(item => category === "all" ? true : item.category === category)
