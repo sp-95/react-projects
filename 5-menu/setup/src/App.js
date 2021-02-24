@@ -7,7 +7,7 @@ function App() {
   const categories = ["all", ...new Set(items.map(item => item.category))];
   const [category, setCategory] = useState("all");
 
-  const handleClick = ({target}) => setCategory(target.textContent);
+  const handleFilter = ({target}) => setCategory(target.textContent);
 
   return (
     <main>
@@ -16,7 +16,7 @@ function App() {
           <h2>Our Menu</h2>
           <div className="underline"></div>
         </header>
-        <Categories categories={categories} handleClick={handleClick} />
+        <Categories categories={categories} handleFilter={handleFilter} />
         <section className="section-center">
           {items
             .filter(item => category === "all" ? true : item.category === category)
