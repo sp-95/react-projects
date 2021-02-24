@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-const Tour = ({ tour, handleDelete }) => {
-  const { id, name, info, image, price } = tour;
+const Tour = ({ id, name, info, image, price, handleDelete }) => {
   const [showLess, setShowLess] = useState(true);
 
   return (

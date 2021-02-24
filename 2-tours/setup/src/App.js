@@ -28,8 +28,22 @@ function App() {
 
   return (
     <main>
-      {loading && <Loading />}
-      {!loading && <Tours tours={tours} handleDelete={handleDelete} />}
+      {loading ?
+        (
+          <Loading />
+        ) : (
+          !tours.length ?
+            (
+              <div className="title">
+                <h2>No Tours Left</h2>
+                <div className="underline"></div>
+                <button className="btn" onClick={fetchTours}>refresh</button>
+              </div>
+            ) : (
+              <Tours tours={tours} handleDelete={handleDelete} />
+            )
+        )
+      }
     </main>
   );
 }
