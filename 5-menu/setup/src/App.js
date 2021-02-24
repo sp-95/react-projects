@@ -4,7 +4,30 @@ import Categories from './Categories';
 import items from './data';
 
 function App() {
-  return <h2>menu project setup</h2>;
+  const categories = ["all", ...new Set(items.map(item => item.category))];
+  const [category, setCategory] = useState("all");
+
+  const handleClick = ({target}) => setCategory(target.textContent);
+
+  return (
+    <main>
+      <div className="menu">
+        <header className="title">
+          <h2>Our Menu</h2>
+          <div className="underline"></div>
+        </header>
+        <div className="btn-container">
+          {categories.map((category, id) => <Categories key={id} category={category} handleClick={handleClick} />)}
+        </div>
+        <section className="section-center">
+          {items
+            .filter(item => category === "all" ? true : item.category === category)
+            .map(item => <Menu key={item.id} {...item} />)
+          }
+        </section>
+      </div>
+    </main>
+  );
 }
 
 export default App;
