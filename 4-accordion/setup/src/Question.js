@@ -8,7 +8,7 @@ const Question = ({ title, info }) => {
       <header>
         <h4>{title}</h4>
         <button className="btn" onClick={() => setDisplayInfo(!displayInfo)}>
-          {displayInfo ? <AiOutlinePlus /> : <AiOutlineMinus />}
+          {displayInfo ? <AiOutlineMinus /> : <AiOutlinePlus />}
         </button>
       </header>
       <p>{displayInfo && info}</p>
