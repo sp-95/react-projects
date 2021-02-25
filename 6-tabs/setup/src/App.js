@@ -6,77 +6,64 @@ const url = 'https://course-api.com/react-tabs-project'
 function App() {
   const [loading, setLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
-  const [activeJob, setActiveJob] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const fetchData = async () => {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      data.map(job => ({ ...job, active: false }));
-      data[0].active = true;
       setJobs(data);
-      setActiveJob(data[0]);
       setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   }
+  useEffect(() => {
+    fetchData()
+  }, [])
 
-  useEffect(fetchData, []);
-
-  const handleActiveJob = ({ target }) => {
-    const newJobs = jobs.map(job => {
-      if (job.company === target.textContent) {
-        job.active = true;
-        setActiveJob(job);
-        return job;
-      } else {
-        job.active = false;
-        return job;
-      }
-    });
-    setJobs(newJobs);
+  if (loading) {
+    return (
+      <section className="section">
+        <h1 className="loading">Loading...</h1>
+      </section>
+    )
   }
 
+  const { title, dates, duties, company } = jobs[activeIndex];
   return (
-    <main className="section">
-      {loading ?
-        (
-          <h1 className="loading">Loading...</h1>
-        ) : (
-          <section>
-            <div className="title">
-              <h2>Experiences</h2>
-              <div className="underline"></div>
+    <section className="section">
+      <div className="title">
+        <h2>experience</h2>
+        <div className="underline"></div>
+      </div>
+      <div className="jobs-center">
+        <nav className="btn-container">
+          {jobs.map((job, index) =>
+            <button
+              key={job.id}
+              onClick={() => setActiveIndex(index)}
+              className={`job-btn${index === activeIndex ? " active-btn" : ""}`}
+            >
+              {job.company}
+            </button>
+          )}
+        </nav>
+        <article className="job-info">
+          <h3>{title}</h3>
+          <h4>{company}</h4>
+          <p className="job-date">{dates}</p>
+          {duties.map((duty, index) => (
+            <div className="job-desc" key={index}>
+              <FaAngleDoubleRight className="job-icon" />
+              <p>{duty}</p>
             </div>
-            <div className="jobs-center">
-              <nav className="btn-container">
-                {jobs.map(({ company, active }, index) =>
-                  <button className={`job-btn ${active && " active-btn"}`} key={index} onClick={handleActiveJob}>
-                    {company}
-                  </button>
-                )}
-              </nav>
-              {activeJob && (
-                <article className="job-info">
-                  <h3>{activeJob.title}</h3>
-                  <h4>{activeJob.company}</h4>
-                  <p className="job-date">{activeJob.dates}</p>
-                  {activeJob.duties.map((duty, index) => (
-                    <div className="job-desc" key={index}>
-                      <FaAngleDoubleRight className="job-icon" />
-                      <p>{duty}</p>
-                    </div>
-                  ))}
-                </article>
-              )}
-            </div>
-            <button className="btn">more info</button>
-          </section>
-        )
-      }
-    </main>
+          ))}
+        </article>
+      </div>
+      <button className="btn">more info</button>
+    </section>
   )
 }
 
