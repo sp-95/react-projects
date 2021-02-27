@@ -4,10 +4,16 @@ import Alert from './Alert'
 
 function App() {
   const [item, setItem] = useState("")
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState({})
   const [alert, setAlert] = useState({})
   const [edit, setEdit] = useState(false)
-  const [editIndex, setEditIndex] = useState(null)
+  const [editID, setEditID] = useState(null)
+
+  const clearValues = () => {
+    setItem("")
+    setEdit(false)
+    setEditID(null)
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -17,16 +23,18 @@ function App() {
       alertMessage = "please enter value"
       alertType = "danger"
     } else if (edit) {
-      items[editIndex] = item
+      items[editID] = item
       setItems(items)
+      clearValues()
 
       alertMessage = "value changed"
       alertType = "success"
 
-      setEdit(false)
-      setEditIndex(null)
     } else {
-      setItems(prev => [...prev, item])
+      const id = Date.now().toString()
+      setItems(prev => ({...prev, [id]: item}))
+      clearValues()
+
       alertMessage = "item added to the list"
       alertType = "success"
     }
@@ -35,24 +43,19 @@ function App() {
       message: alertMessage,
       type: alertType
     })
-    setItem("")
   }
 
-  const handleEdit = index => {
-    setItem(items[index])
+  const handleEdit = id => {
+    setItem(items[id])
     setEdit(true)
-    setEditIndex(index)
+    setEditID(id)
   }
 
-  const handleDelete = index => {
-    items.splice(index, 1)
+  const handleDelete = id => {
+    delete items[id]
     setItems(items)
 
-    if (index === editIndex) {
-      setItem("")
-      setEdit(false)
-      setEditIndex(null)
-    }
+    if (id === editID) clearValues()
 
     setAlert({
       message: "item removed",
@@ -61,7 +64,8 @@ function App() {
   }
 
   const handleClear = () => {
-    setItems([])
+    setItems({})
+    clearValues()
     setAlert({
       message: "empty list",
       type: "danger"
@@ -69,8 +73,8 @@ function App() {
   }
 
   useEffect(() => {
-    const intervalId = setInterval(() => setAlert({}), 3000)
-    return () => clearInterval(intervalId)
+    const intervalID = setInterval(() => setAlert({}), 3000)
+    return () => clearInterval(intervalID)
   }, [alert])
 
   return (
@@ -90,12 +94,12 @@ function App() {
         </div>
       </form>
       <div className="grocery-container">
-        {items.map((item, index) =>
+        {Object.entries(items).map(([id, item]) =>
           <List
-            key={index}
+            key={id}
             item={item}
-            handleEdit={() => handleEdit(index)}
-            handleDelete={() => handleDelete(index)}
+            handleEdit={() => handleEdit(id)}
+            handleDelete={() => handleDelete(id)}
           />
         )}
       </div>
