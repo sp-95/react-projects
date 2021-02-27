@@ -12,21 +12,28 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    let alertMessage
-    if (edit) {
+    let alertMessage, alertType
+    if (!item) {
+      alertMessage = "please enter value"
+      alertType = "danger"
+    } else if (edit) {
       items[editIndex] = item
       setItems(items)
+
       alertMessage = "value changed"
+      alertType = "success"
+
       setEdit(false)
       setEditIndex(null)
     } else {
       setItems(prev => [...prev, item])
       alertMessage = "item added to the list"
+      alertType = "success"
     }
 
     setAlert({
       message: alertMessage,
-      type: "success"
+      type: alertType
     })
     setItem("")
   }
