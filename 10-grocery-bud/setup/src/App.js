@@ -26,7 +26,7 @@ function App() {
 
     setAlert({
       message: alertMessage,
-      type: "alert-success"
+      type: "success"
     })
     setItem("")
   }
@@ -49,7 +49,7 @@ function App() {
 
     setAlert({
       message: "item removed",
-      type: "alert-danger"
+      type: "danger"
     })
   }
 
@@ -57,14 +57,14 @@ function App() {
     setItems([])
     setAlert({
       message: "empty list",
-      type: "alert-danger"
+      type: "danger"
     })
   }
 
   useEffect(() => {
     const intervalId = setInterval(() => setAlert({}), 3000)
     return () => clearInterval(intervalId)
-  })
+  }, [alert])
 
   return (
     <section className="section-center">
