@@ -7,6 +7,7 @@ function App() {
     <main>
       <Home />
       <Sidebar />
+      <Modal />
     </main>
   )
 }
