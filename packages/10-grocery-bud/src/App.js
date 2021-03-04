@@ -103,7 +103,7 @@ function App() {
           />
         )}
       </div>
-      {items.length > 0 && <button className="clear-btn" onClick={handleClear}>clear items</button>}
+      {Object.keys(items).length > 0 && <button className="clear-btn" onClick={handleClear}>clear items</button>}
     </section>
   )
 }
