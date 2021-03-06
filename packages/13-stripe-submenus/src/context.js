@@ -4,8 +4,11 @@ import sublinks from './data'
 const AppContext = React.createContext()
 
 const AppProvider = ({children}) => {
+    const [showSidebar, setShowSidebar] = useState(false)
+
     return <AppContext.Provider value={{
-        sublinks
+        sublinks,
+        showSidebar, setShowSidebar
     }}>
         {children}
     </AppContext.Provider>

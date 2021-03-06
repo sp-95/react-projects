@@ -4,14 +4,14 @@ import { FaBars } from 'react-icons/fa'
 import { useAppContext } from './context'
 
 const Navbar = () => {
-  const { sublinks } = useAppContext()
+  const { sublinks, setShowSidebar } = useAppContext()
   return (
     <nav className="nav">
       <div className="nav-center">
         <div className="nav-header">
           <img src={logo} alt="stripe" />
           <button className="btn toggle-btn">
-            <FaBars />
+            <FaBars onClick={() => setShowSidebar(true)} />
           </button>
         </div>
         <ul className="nav-links">

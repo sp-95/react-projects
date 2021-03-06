@@ -9,6 +9,7 @@ function App() {
     <AppProvider>
       <Navbar />
       <Hero />
+      <Sidebar />
     </AppProvider>
   )
 }
