@@ -4,12 +4,12 @@ import { useAppContext } from './context'
 import sublinks from './data'
 
 const Sidebar = () => {
-  const { showSidebar, setShowSidebar } = useAppContext()
+  const { showSidebar, handleSidebarClose } = useAppContext()
 
   return (
     <div className={`sidebar-wrapper${showSidebar ? " show" : ""}`}>
       <aside className="sidebar">
-        <button className="close-btn"><FaTimes onClick={() => setShowSidebar(false)} /></button>
+        <button className="close-btn"><FaTimes onClick={handleSidebarClose} /></button>
         <div>
           {sublinks.map(({ page, links }, index) => (
             <article key={index}>

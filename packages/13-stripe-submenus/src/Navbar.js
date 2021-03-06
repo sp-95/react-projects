@@ -2,14 +2,15 @@ import React from 'react'
 import logo from './images/logo.svg'
 import { FaBars } from 'react-icons/fa'
 import { useAppContext } from './context'
+import sublinks from './data'
 
 const Navbar = () => {
-  const { sublinks, setShowSidebar, openSubMenu, closeSubMenu } = useAppContext()
+  const { handleSidebarOpen, handleSubMenuOpen, handleSubMenuClose } = useAppContext()
 
   const handleMouseEnter = (index, {target}) => {
     const bbox = target.getBoundingClientRect()
     const center = (bbox.left + bbox.right) / 2
-    openSubMenu(sublinks[index], center)
+    handleSubMenuOpen(index, center)
   }
 
   return (
@@ -18,7 +19,7 @@ const Navbar = () => {
         <div className="nav-header">
           <img src={logo} alt="stripe" />
           <button className="btn toggle-btn">
-            <FaBars onClick={() => setShowSidebar(true)} />
+            <FaBars onClick={handleSidebarOpen} />
           </button>
         </div>
         <ul className="nav-links">
@@ -27,7 +28,7 @@ const Navbar = () => {
               <button
                 className="link-btn"
                 onMouseEnter={event => handleMouseEnter(index, event)}
-                onMouseLeave={closeSubMenu}
+                onMouseLeave={handleSubMenuClose}
               >
                 {page}
               </button>
