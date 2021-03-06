@@ -5,6 +5,7 @@ import sublinks from './data'
 
 const Sidebar = () => {
   const { showSidebar, setShowSidebar } = useAppContext()
+
   return (
     <div className={`sidebar-wrapper${showSidebar ? " show" : ""}`}>
       <aside className="sidebar">
@@ -13,9 +14,9 @@ const Sidebar = () => {
           {sublinks.map(({ page, links }, index) => (
             <article key={index}>
               <h4>{page}</h4>
-              <div className="sidebar-sublinks" key={index}>
+              <div className="sidebar-sublinks">
                 {links.map(({ label, icon, url }, index) => (
-                  <a href={url}>{icon}{label}</a>
+                  <a href={url} key={index}>{icon}{label}</a>
                 ))}
               </div>
             </article>
