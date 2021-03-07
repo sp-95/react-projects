@@ -1,5 +1,4 @@
 import React, { useState, useContext, useReducer, useEffect } from 'react'
-import cartItems from './data'
 import reducer from './reducer'
 // ATTENTION!!!!!!!!!!
 // I SWITCHED TO PERMANENT DOMAIN
@@ -7,7 +6,22 @@ const url = 'https://course-api.com/react-useReducer-cart-project'
 const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
-  const [cart, setCart] = useState(cartItems)
+  const [loading, setLoading] = useState(true)
+  const [cart, setCart] = useState([])
+
+  const fetchItems = async () => {
+    try {
+      const response = await fetch(url)
+      const data = await response.json()
+      setCart(data)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => fetchItems(), [])
 
   const handleRemoveItem = id => setCart(
     prev => prev.filter(item => item.id !== id)
@@ -43,6 +57,7 @@ const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
+        loading,
         cart,
         handleRemoveItem,
         handleClearCart,
