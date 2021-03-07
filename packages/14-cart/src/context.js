@@ -9,10 +9,15 @@ const AppContext = React.createContext()
 const AppProvider = ({ children }) => {
   const [cart, setCart] = useState(cartItems)
 
+  const handleRemoveItem = id => setCart(
+    prev => prev.filter(item => item.id !== id)
+  )
+
   return (
     <AppContext.Provider
       value={{
         cart,
+        handleRemoveItem,
       }}
     >
       {children}
