@@ -13,11 +13,14 @@ const AppProvider = ({ children }) => {
     prev => prev.filter(item => item.id !== id)
   )
 
+  const handleClearCart = () => setCart([])
+
   return (
     <AppContext.Provider
       value={{
         cart,
         handleRemoveItem,
+        handleClearCart
       }}
     >
       {children}
