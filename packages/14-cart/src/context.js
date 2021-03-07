@@ -21,13 +21,32 @@ const AppProvider = ({ children }) => {
     ), 0)
   )
 
+  const handleIncrease = id => (
+    setCart(
+      prev => prev.map(
+        item => item.id === id ? { ...item, amount: item.amount + 1 } : item
+      )
+    )
+  )
+
+  const handleDecrease = id => (
+    setCart(
+      prev => prev.map(
+        item => item.id === id ? { ...item, amount: item.amount - 1 } : item
+      ).filter(
+        item => item.amount !== 0
+      )
+    )
+  )
+
   return (
     <AppContext.Provider
       value={{
         cart,
         handleRemoveItem,
         handleClearCart,
-        calculateTotal
+        calculateTotal,
+        handleIncrease, handleDecrease
       }}
     >
       {children}
