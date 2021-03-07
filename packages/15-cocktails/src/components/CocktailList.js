@@ -4,10 +4,21 @@ import Loading from "./Loading"
 import { useGlobalContext } from "../context"
 
 const CocktailList = () => {
+  const { loading, drinks } = useGlobalContext()
+
+  if (loading) {
+    return <Loading />
+  }
+
   return (
-    <div>
-      <h2>cocktail list component</h2>
-    </div>
+    <section className="section">
+      <h2 className="section-title">cocktails</h2>
+      <div className="cocktails-center">
+        {drinks.map(drink => (
+          <Cocktail key={drink.idDrink} {...drink} />
+        ))}
+      </div>
+    </section>
   )
 }
 
