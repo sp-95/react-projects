@@ -16,9 +16,10 @@ const AppProvider = ({ children }) => {
   const handleClearCart = () => setCart([])
 
   const calculateTotal = () => (
-    cart.reduce((partialSum, item) => (
-      partialSum + item.price * item.amount
-    ), 0)
+    cart.reduce(
+      (partialSum, item) => partialSum + item.price * item.amount
+      , 0
+    ).toFixed(2)
   )
 
   const handleIncrease = id => (
