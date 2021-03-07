@@ -15,12 +15,19 @@ const AppProvider = ({ children }) => {
 
   const handleClearCart = () => setCart([])
 
+  const calculateTotal = () => (
+    cart.reduce((partialSum, item) => (
+      partialSum + item.price * item.amount
+    ), 0)
+  )
+
   return (
     <AppContext.Provider
       value={{
         cart,
         handleRemoveItem,
-        handleClearCart
+        handleClearCart,
+        calculateTotal
       }}
     >
       {children}
