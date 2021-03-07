@@ -1,68 +1,52 @@
-import React, { useState, useContext, useReducer, useEffect } from 'react'
-import reducer from './reducer'
+import React, { useContext, useReducer, useEffect } from "react"
+import reducer from "./reducer"
 // ATTENTION!!!!!!!!!!
 // I SWITCHED TO PERMANENT DOMAIN
-const url = 'https://course-api.com/react-useReducer-cart-project'
+const url = "https://course-api.com/react-useReducer-cart-project"
 const AppContext = React.createContext()
 
+const initialState = {
+  loading: true,
+  cart: [],
+  total: 0,
+}
+
 const AppProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true)
-  const [cart, setCart] = useState([])
+  const [state, dispatcher] = useReducer(reducer, initialState)
 
   const fetchItems = async () => {
     try {
       const response = await fetch(url)
       const data = await response.json()
-      setCart(data)
-      setLoading(false)
+      dispatcher({ type: "LOAD_COMPLETE", payload: data })
     } catch (error) {
       console.log(error)
-      setLoading(false)
+      dispatcher({ type: "LOAD_COMPLETE" })
     }
   }
 
   useEffect(() => fetchItems(), [])
 
-  const handleRemoveItem = id => setCart(
-    prev => prev.filter(item => item.id !== id)
-  )
+  const handleRemoveItem = id =>
+    dispatcher({ type: "REMOVE_ITEM", payload: id })
 
-  const handleClearCart = () => setCart([])
+  const handleClearCart = () => dispatcher({ type: "CLEAR_CART" })
 
-  const calculateTotal = () => (
-    cart.reduce(
-      (partialSum, item) => partialSum + item.price * item.amount
-      , 0
-    ).toFixed(2)
-  )
+  const calculateTotal = () => dispatcher({ type: "CALCULATE_TOTAL" })
+  useEffect(calculateTotal, [state.cart])
 
-  const handleIncrease = id => (
-    setCart(
-      prev => prev.map(
-        item => item.id === id ? { ...item, amount: item.amount + 1 } : item
-      )
-    )
-  )
+  const handleIncrease = id => dispatcher({ type: "INCREASE", payload: id })
 
-  const handleDecrease = id => (
-    setCart(
-      prev => prev.map(
-        item => item.id === id ? { ...item, amount: item.amount - 1 } : item
-      ).filter(
-        item => item.amount !== 0
-      )
-    )
-  )
+  const handleDecrease = id => dispatcher({ type: "DECREASE", payload: id })
 
   return (
     <AppContext.Provider
       value={{
-        loading,
-        cart,
+        ...state,
         handleRemoveItem,
         handleClearCart,
-        calculateTotal,
-        handleIncrease, handleDecrease
+        handleIncrease,
+        handleDecrease,
       }}
     >
       {children}
